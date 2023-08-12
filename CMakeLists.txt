@@ -12,7 +12,15 @@ find_package(Openimageio REQUIRED )
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-add_executable(image_processing main.cpp)
+add_executable(image_processing main.cpp
+        src/Image.cpp
+        headers/Image.h
+        src/ImageProcess.cpp
+        headers/ImageProcess.h
+        src/Viewer2d.cpp
+        headers/Viewer2d.h
+        src/Viewer3d.cpp
+        headers/Viewer3d.h)
 
 include_directories(${OIIO_PATH}/include/)
 
