@@ -3,3 +3,14 @@
 //
 
 #include "../headers/ImageProcess.h"
+
+ImageProcess::ImageProcess() {
+
+}
+
+ImageProcess::~ImageProcess() {
+
+}
+
+void ImageProcess::grayscale(std::unique_ptr<unsigned char[]> data) {
+}

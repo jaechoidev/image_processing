@@ -7,20 +7,26 @@
 
 #include <string>
 #include <OpenImageIO/imageio.h>
+#include "ImageProcess.h"
 
-class Image {
+class Image{
 public:
-    Image(std::string);
+    explicit Image(const std::string&);
     ~Image();
 
     void save();
     void saveAs(std::string);
 
+    void grayscale() const;
+    void grade(double, double, double, double);
+    void grade(double);
+
     std::string filePath;
     std::unique_ptr<unsigned char[]> data;
     int width;
     int height;
-    int nchannels;
+    int nChannels;
+    std::vector<std::string> channelNames;
 };
 
 #endif //IMAGE_PROCESSING_IMAGE_H
