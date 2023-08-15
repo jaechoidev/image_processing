@@ -20,6 +20,7 @@ public:
     void grayscale() const;
     void grade(double, double, double, double);
     void grade(double);
+    void blur(int, std::vector<std::vector<double>>);
 
     std::string filePath;
     std::unique_ptr<unsigned char[]> data;

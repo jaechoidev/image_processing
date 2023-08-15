@@ -38,23 +38,12 @@ void Image::grayscale() const {
 }
 
 void Image::grade(double r, double g, double b, double a) {
-//    std::cout << "r : " << r << std::endl;
-//    std::cout << "g : " << g << std::endl;
-//    std::cout << "b : " << b << std::endl;
-//    std::cout << "data[i] : " << double(data[0]) << std::endl;
-//    std::cout << "data[i+1] : " << double(data[1]) << std::endl;
-//    std::cout << "data[i+2] : " << double(data[2]) << std::endl;
-//    std::cout << "data[i+3] : " << double(data[3]) << std::endl;
     for (int i = 0; i < (width * height * nChannels); i+=nChannels){
         data[i] = double(data[i]) * r;
         data[i+1] = double(data[i+1]) * g;
         data[i+2] = double(data[i+2]) * b;
         data[i+3] = double(data[i+3]) * a;
     }
-//    std::cout << "data[i] : " << double(data[0]) << std::endl;
-//    std::cout << "data[i+1] : " << double(data[1]) << std::endl;
-//    std::cout << "data[i+2] : " << double(data[2]) << std::endl;
-//    std::cout << "data[i+3] : " << double(data[3]) << std::endl;
 }
 
 void Image::grade(double f) {
@@ -64,6 +53,28 @@ void Image::grade(double f) {
         data[i+2] *= f;
         data[i+3] *= 1;
     }
+}
+
+void Image::blur(int size, std::vector<std::vector<double>> kernel) {
+    // currently not using kernel, it's box blur.
+    std::unique_ptr<unsigned char[]> newData = std::unique_ptr<unsigned char[]>(new unsigned char[width * height * nChannels]);
+    for (int i = 0; i < (width * height * nChannels - 1); i+=nChannels){
+        std::vector<double> sum (nChannels, 0);
+        for (int h = 0; h <= size; h++){
+            for (int w = 0; w<= size; w++) {
+                if (i +((w-1) + (h-1) * width)*nChannels >= 0 && i +((w-1) + (h-1) * width)*nChannels < (width * height * nChannels - 1)) {
+                    for (int s = 0; s < nChannels; s++) {
+                        sum[s] += double(data[i + s + ((w - 1) + (h - 1) * width) * nChannels]);
+                    }
+                }
+            }
+        }
+        // channels per pixel
+        for (int s = 0; s < nChannels; s++) {
+            newData[i+s] = sum[s] / ((size+1)*(size+1));
+        }
+    }
+    this->data.swap(newData);
 }
 
 
